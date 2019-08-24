@@ -1,0 +1,10 @@
+This file has to be copied into the root vendor/etc/fstab.qcom to enable F2FS support.  This can be done with a root browser (Magisk installed).
+
+This is flashed after the kernel is patched with Magisk and modifies the default fstab.qcom
+Only data and cache partitions benefit from F2FS.  Flashing this ROM to a formatted F2FS partition will require setup off all data again.
+Nandroid EXT4 backups will not work - Google and Xiaomi Cloud backups will.
+
+Only TWRP twrp-3.3.1-37-cepheus-mauronofrio.img works for mounting F2FS partions currently.  It has been tested and works with this kernel.
+
+The entire source code here is for China based ROMs (Xiaomi.eu, MIUI, RevOS) and Android Pie (9). 
+Android Q has a different DTBO.img and causes a flash to fail. Code source is closed at this point so unable to fix.

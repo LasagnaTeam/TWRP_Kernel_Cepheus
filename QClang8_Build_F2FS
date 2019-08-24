@@ -1,0 +1,23 @@
+#Just copy & paste in GoTo Build terminal
+
+cd /home/user/cepheus-p-oss
+rm -rf out
+mkdir out #only if it doesn't exist
+# make .config for cepheus
+make O=out REAL_CC=$QCOMCLANG8/clang CLANG_TRIPLE=aarch64-linux-gnu- cepheus_user_defconfig
+# To not modify the cepheus_user_defconfig with the CONFIG_BUILD_ARM64_DT_OVERLAY=y required, edit the generated .config file directly
+./scripts/config --file out/.config --enable CONFIG_BUILD_ARM64_DT_OVERLAY
+# To not modify the cepheus_user_defconfig with the Cosmin demonsingur@gmail.com http://demon000.github.io CONFIG_MODULE_FORCE_LOAD - also need his module.c to force Wifi and Sound drivers to work.  It's in the desktop folder Mi9 Build Tools if you lose it: cosmin_kernel-module.c - copy to \kernel\module.c
+./scripts/config --file out/.config --enable CONFIG_MODULE_FORCE_LOAD
+# Merge f2fs branch from Google and this to your defconfig to enable FSFS
+./scripts/config --file out/.config --enable CONFIG_F2FS_FS
+./scripts/config --file out/.config --enable CONFIG_F2FS_FS_SECURITY
+./scripts/config --file out/.config --enable CONFIG_F2FS_CHECK_FS
+./scripts/config --file out/.config --enable CONFIG_F2FS_FS_ENCRYPTION
+./scripts/config --file out/.config --disable CONFIG_F2FS_STAT_FS # (NEW) aborted here
+./scripts/config --file out/.config --enable CONFIG_F2FS_FS_XATTR
+./scripts/config --file out/.config --enable CONFIG_F2FS_FS_POSIX_ACL
+./scripts/config --file out/.config --disable CONFIG_F2FS_FAULT_INJECTION
+
+# build from the config file, -j4 is 4 processors (my VM, can set higher based on machine)
+make -j4 O=out REAL_CC=$QCOMCLANG8/clang CLANG_TRIPLE=aarch64-linux-gnu- 2>&1 | tee kernel.log

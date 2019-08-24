@@ -732,3 +732,19 @@ CONFIG_OKL4_PIPE=y
 # CONFIG_QRTR_FIFO=y
 CONFIG_TRUSTY=y
 CONFIG_VCM_AK7374=y
+# Add required fields to build source that always should have been here just weren't for some odd reason... Xiaomi
+CONFIG_BUILD_ARM64_DT_OVERLAY=y
+CONFIG_MODULE_FORCE_LOAD=y
+# Add F2FS support once TWRP can mount the partition... fstab.qcom has to be changed as well for F2FS data partition only
+CONFIG_F2FS_FS=y
+CONFIG_F2FS_FS_SECURITY=y
+CONFIG_F2FS_CHECK_FS=n
+CONFIG_F2FS_FS_ENCRYPTION=y
+CONFIG_F2FS_STAT_FS=n
+CONFIG_F2FS_FS_XATTR=y
+CONFIG_F2FS_FS_POSIX_ACL=y
+CONFIG_F2FS_FAULT_INJECTION=n
+# Add LZ4 support for ZRAM compression
+CONFIG_CRYPTO_LZ4=y
+CONFIG_LZ4_COMPRESS=y
+CONFIG_LZ4_DECOMPRESS=y
